@@ -175,4 +175,3 @@ def CycleGAN(Musician):
         CycleGAN_T_model.fit(Train_dataset_T, [label_T, label_T, Train_dataset_T, Train_dataset_T], epochs=9, batch_size=32)
     CycleGAN_O_model.save("%s.hdf5" % (Musician))  # save the model
 
-# CycleGAN('Hisaishi')

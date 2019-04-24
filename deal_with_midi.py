@@ -4,6 +4,7 @@ Function: convert midi into discrete note sequence
 '''
 
 from mido import MidiFile, MidiTrack, Message
+import midi_player
 
 
 '''
@@ -125,20 +126,64 @@ def Export_Sequence(path, Sequence):
         f.write("%d %s %d\n" % (x[0], x[1][0], x[2]))
     f.close()
 
+'''
+Function name:Main_Process
+Task: to convert the midi file (in YuHsin format) into sequence
+Input:the path of midi file 
+Output:the corresponding discrete sequence
+'''
 
+def YuHsin(path):
+    Song = MidiFile(path)  # load the midi file
+    for i, track in enumerate(Song.tracks):
+        if(i == 0):
+            Main_track = track  # the main track of midi music
+    Onoff_track = [str(x) for x in Main_track]    
+    Track=[]    #the target list
+    Last_off=0 #the last duration time of note_off command
+    for x in Onoff_track:
+        command=x.split(' ')
+        if('note_on' in x and command[-1][5:]!='0'):
+            Track.append("note_on %s %s %s time=%d"%(command[1],command[2],command[3],Last_off))
+            Track.append("note_off %s %s %s time=%d"%(command[1],command[2],command[3],int(command[-1][5:])))
+            Last_off=0
+        elif('note_off' in x and command[-1][5:]!='0'):
+            Last_off+=int(command[-1][5:])   #record the note_off time
+    return Track
 '''
 Function name:Main_Process
 Task: the entire process to convert a midi file into discrete sequence
-Input:the path of midi file , type of midi file (2 source,0 means Beethoven... , 1 means V.K...,defalt 0)
+Input:the path of midi file , type of midi file (2 source,0 means Beethoven... , 1 means V.K...,defalt 2 -- common style in the software)
 Output:the corresponding discrete sequence
 '''
 
 
-def Main_Process(path, Type=0):
-    if(Type):  # use V.K format
+def Main_Process(path, Type=2):
+    if(Type==0):  # use V.K format
         Track = Export_Midi(path)
-    else:  # use Beethoven format
+    elif(Type==1):  # use Beethoven format
         Track = Format_Convert(path)
+    elif(Type==2):  #use YuHsin format(default)
+        Track = YuHsin(path)
     Sequence = Discrete_Sequence(Track)
-    return Sequence
+    parts=(len(Sequence)-1)//300+1  #300 notes is regarded as 1 part
+    for x in range(300*parts-len(Sequence)):
+        Sequence.append([0,['0'],0])    #filled with empty note when the last part is less then 300 notes
+    L=[[0 for _ in range(900)] for _ in range(parts)]
+    for i in range(parts):
+        Sub_sequence=Sequence[300*i:300*i+300]
+        L[i][:300]=[x[0] for x in Sub_sequence]
+        L[i][300:600]=[int(x[1][0]) for x in Sub_sequence]
+        L[i][600:]=[x[2] for x in Sub_sequence]
+    return L
 
+if __name__=='__main__' :
+    x=Main_Process("clock.mid",Type=2)
+    f=open('wq.txt','w')
+    for i in x[:300]:
+        f.write('%d '%(i[0]))
+    for i in x[:300]:
+        f.write('%s '%(i[1][0]))
+    for i in x[:300]:
+        f.write('%d '%(i[2]))
+    f.close()

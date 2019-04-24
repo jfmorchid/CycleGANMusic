@@ -3,7 +3,6 @@ Module Name: midi_player
 Function: to play a music -- save the .mid file written according to discrete sequence
 '''
 
-import deal_with_midi
 from mido import MidiTrack, MidiFile, Message, MetaMessage
 import os
 

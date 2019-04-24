@@ -13,8 +13,8 @@ import numpy as np
 from mido import MidiTrack,Message
 from midi_player import Initialize_Track
 unit={"V.K":54,"Hisaishi":86,"Debussy":44,"Pianoboy":152,"Beethoven":36,"Bach":68,"Mozart":100,"Schubert":38}#unit length of note
-speed={"V.K":0.76,"Hisaishi":64425,"Debussy":52389,"Pianoboy":1,"Beethoven":1,"Bach":30372,"Mozart":47867,"Schubert":54988}
-ratio={"V.K":1.1,"Hisaishi":4,"Debussy":4,"Pianoboy":4,"Beethoven":4,"Bach":4,"Mozart":4,"Schubert":4}
+speed={"V.K":0.76,"Hisaishi":1,"Debussy":1,"Pianoboy":1,"Beethoven":1,"Bach":1,"Mozart":1,"Schubert":1}
+ratio={"V.K":1.1,"Hisaishi":1,"Debussy":1,"Pianoboy":1,"Beethoven":1,"Bach":1,"Mozart":1,"Schubert":1}
 '''
 Function name:Expand_Absolute
 Task: to amplify the results of neural network training

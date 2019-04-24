@@ -8,6 +8,7 @@ from keras.models import load_model
 import numpy as np
 from music_theory import Main_Process
 from midi_player import Export_Midi
+import deal_with_midi
 import sys
 
 
@@ -22,11 +23,24 @@ def Predicting(Musician, OriginalTrack):
 
 
 vector, style = sys.argv[1], sys.argv[2]
-f = open(vector)
-Track = f.readlines()
-f.close()
-Track = [int(x) for x in Track[0][:-1].split(' ')]
-Track = np.array(Track)
-New_track = Predicting(style, Track)
-New_track, Lefthand_track = Main_Process(style, Track, New_track)
-Export_Midi('Output.mid', New_track)
+try:
+    print('Data preprocessing...')
+    Track = np.array(deal_with_midi.Main_Process(vector, Type=2))  # preprocessing data
+except:
+    raise RuntimeError('Invalid midi format. If it happens, you can contact us,and show us the invalid midi file.')
+Entire_track = [[0, '0', 0] for _ in range(len(Track) * 300)]
+try:
+    print('Predicting with CycleGAN model...\n')
+    for x in range(len(Track)):
+        New_track = Predicting(style, Track[x])
+        New_track, Lefthand_track = Main_Process(style, Track[x], New_track)
+        Entire_track[x * 300:x * 300 + 300] = New_track
+        print('Finishing parts %d / 8' % (x + 1))
+except:
+    raise RuntimeError('Invalid discrete sequence. Please check the .mid format, and choose the suitable function to export sequence.')
+try:
+    print('Saving to Output.mid...')
+    Export_Midi('Output.mid', Entire_track)
+except:
+    raise RuntimeError('Fail to save the midi file. Pleast make sure the Output.mid is not opened by other software.')
+print('Success!')
