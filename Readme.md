@@ -2,7 +2,7 @@
 
 ## Last update: 4/28/2019,18:57
 
-To transfer the midi style with CycleGAN model, you need to prepare the midi file (for example, 'test.mid).
+To transfer the midi style with CycleGAN model, you need to prepare the midi file (for example, 'test.mid').
 
 Then, run **\_\_init\_\_.py**:
 
