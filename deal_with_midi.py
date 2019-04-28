@@ -48,7 +48,10 @@ def Format_Convert(path):
         if(Command[-2] == 'velocity=0'):  # it's equivalent to message "note_off"
             Onoff_track[x] = "note_off channel=0 note=%s velocity=64 time=%d" % (Command[2][5:], int(int(Command[-1][5:]) * Ratio))
         else:  # it's equivalent to message "note_on"
-            Onoff_track[x] = "note_on channel=0 note=%s velocity=90 time=%d" % (Command[2][5:], int(int(Command[-1][5:]) * Ratio))
+            if(int(Command[2][5:])<60): #assistant note
+                Onoff_track[x] = "note_on channel=0 note=%s velocity=64 time=%d" % (Command[2][5:], int(int(Command[-1][5:]) * Ratio))
+            else:
+                Onoff_track[x] = "note_on channel=0 note=%s velocity=90 time=%d" % (Command[2][5:], int(int(Command[-1][5:]) * Ratio))
 
     return Onoff_track
 
