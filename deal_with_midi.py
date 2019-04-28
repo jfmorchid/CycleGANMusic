@@ -138,16 +138,16 @@ def YuHsin(path):
     for i, track in enumerate(Song.tracks):
         if(i == 0):
             Main_track = track  # the main track of midi music
-    Onoff_track = [str(x) for x in Main_track]    
+    Onoff_track = [str(x) for x in Main_track]  
     Track=[]    #the target list
     Last_off=0 #the last duration time of note_off command
     for x in Onoff_track:
         command=x.split(' ')
-        if('note_on' in x and command[-1][5:]!='0'):
+        if('note_on' in x and command[-1][5:]!='0' and int(command[-2][9:])>=45):
             Track.append("note_on %s %s %s time=%d"%(command[1],command[2],command[3],Last_off))
             Track.append("note_off %s %s %s time=%d"%(command[1],command[2],command[3],int(command[-1][5:])))
             Last_off=0
-        elif('note_off' in x and command[-1][5:]!='0'):
+        elif('note' in x and command[-1][5:]!='0'):
             Last_off+=int(command[-1][5:])   #record the note_off time
     return Track
 '''
@@ -178,12 +178,12 @@ def Main_Process(path, Type=2):
     return L
 
 if __name__=='__main__' :
-    x=Main_Process("clock.mid",Type=2)
-    f=open('wq.txt','w')
-    for i in x[:300]:
-        f.write('%d '%(i[0]))
-    for i in x[:300]:
-        f.write('%s '%(i[1][0]))
-    for i in x[:300]:
-        f.write('%d '%(i[2]))
-    f.close()
+    x=Main_Process("river.mid",Type=2)
+    #f=open('wq.txt','w')
+    #for i in x[:300]:
+        #f.write('%d '%(i[0]))
+    #for i in x[:300]:
+        #f.write('%s '%(i[1][0]))
+    #for i in x[:300]:
+        #f.write('%d '%(i[2]))
+    #f.close()

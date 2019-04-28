@@ -46,7 +46,7 @@ def Add_Notes(Track, path, Type='midi', ratio=1):
         Track.append(Message('note_on', channel=0, note=int(Command[1][0]), velocity=90, time=int(Command[0])))  # Main note
         for Notes in range(1, len(Command[1])):  # Assistant note
             Track.append(Message('note_on', channel=0, note=int(Command[1][Notes]), velocity=48, time=0))
-        Track.append(Message('note_off', channel=0, note=int(Command[1][0]), velocity=90, time=int(Command[2])))  # Main note ends
+        Track.append(Message('note_off', channel=0, note=int(Command[1][0]), velocity=64, time=int(Command[2])))  # Main note ends
         for Notes in range(1, len(Command[1])):  # Assistant note ends
             Track.append(Message('note_off', channel=0, note=int(Command[1][Notes]), velocity=48, time=0))
     Music = MidiFile()

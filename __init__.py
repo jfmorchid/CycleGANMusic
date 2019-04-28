@@ -22,7 +22,7 @@ def Predicting(Musician, OriginalTrack):
     return New_track
 
 
-vector, style = sys.argv[1], sys.argv[2]
+vector, style =sys.argv[1], sys.argv[2]
 try:
     print('Data preprocessing...')
     Track = np.array(deal_with_midi.Main_Process(vector, Type=2))  # preprocessing data
@@ -35,7 +35,7 @@ try:
         New_track = Predicting(style, Track[x])
         New_track, Lefthand_track = Main_Process(style, Track[x], New_track)
         Entire_track[x * 300:x * 300 + 300] = New_track
-        print('Finishing parts %d / 8' % (x + 1))
+        print('Finishing parts %d / %d' % (x + 1,len(Track)))
 except:
     raise RuntimeError('Invalid discrete sequence. Please check the .mid format, and choose the suitable function to export sequence.')
 try:
