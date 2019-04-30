@@ -182,11 +182,3 @@ def Main_Process(path, Type=2):
 
 if __name__=='__main__' :
     x=Main_Process("river.mid",Type=2)
-    #f=open('wq.txt','w')
-    #for i in x[:300]:
-        #f.write('%d '%(i[0]))
-    #for i in x[:300]:
-        #f.write('%s '%(i[1][0]))
-    #for i in x[:300]:
-        #f.write('%d '%(i[2]))
-    #f.close()

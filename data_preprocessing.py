@@ -8,6 +8,7 @@ Remark: a stardard training data includes 300 notes(The missing data is populate
 import os
 from random import randint
 import numpy as np
+from keras.models import load_model
 
 '''
 Function name:Load_Sequence
@@ -99,7 +100,3 @@ def Obtain_Train_Data(Musician):
             Origin_Data = np.concatenate([Origin_Data, Import_Data(others)], axis=0)
     Target_Data = Import_Data(Musician)
     return Origin_Data, Target_Data
-
-
-
-

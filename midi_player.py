@@ -84,4 +84,3 @@ def Export_Midi(Name, Sequence, Lefthand=None):
     if(not(Lefthand == None)):  # left-hand melody
         Music.tracks.append(Lefthand)
     Music.save(Name)
-
