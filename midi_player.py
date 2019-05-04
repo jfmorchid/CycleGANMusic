@@ -43,15 +43,20 @@ def Add_Notes(Track, path, Type='midi', ratio=1):
         Sequence = path  # generating operation list
 
     for Command in Sequence:
-        Track.append(Message('note_on', channel=0, note=int(Command[1][0]), velocity=90, time=int(Command[0])))  # Main note
-        for Notes in range(1, len(Command[1])):  # Assistant note
-            Track.append(Message('note_on', channel=0, note=int(Command[1][Notes]), velocity=48, time=0))
-        Track.append(Message('note_off', channel=0, note=int(Command[1][0]), velocity=64, time=int(Command[2])))  # Main note ends
-        for Notes in range(1, len(Command[1])):  # Assistant note ends
-            Track.append(Message('note_off', channel=0, note=int(Command[1][Notes]), velocity=48, time=0))
+        if(int(Command[1][0] != -1)):
+            if(Command[1][0] >= 60):
+                Track.append(Message('note_on', channel=0, note=int(Command[1][0]), velocity=90, time=int(Command[0])))  # Main note
+            else:
+                Track.append(Message('note_on', channel=0, note=int(Command[1][0]), velocity=72, time=int(Command[0])))  # Main note
+            for Notes in range(1, len(Command[1])):  # Assistant note
+                Track.append(Message('note_on', channel=0, note=int(Command[1][Notes]), velocity=64, time=0))
+            Track.append(Message('note_off', channel=0, note=int(Command[1][0]), velocity=48, time=int(Command[2])))  # Main note ends
+            for Notes in range(1, len(Command[1])):  # Assistant note ends
+                Track.append(Message('note_off', channel=0, note=int(Command[1][Notes]), velocity=48, time=0))
     Music = MidiFile()
     Music.tracks.append(Track)
     return Music
+    # return Track
 
 
 '''
@@ -84,3 +89,35 @@ def Export_Midi(Name, Sequence, Lefthand=None):
     if(not(Lefthand == None)):  # left-hand melody
         Music.tracks.append(Lefthand)
     Music.save(Name)
+
+
+'''
+Function name:Note_Split
+Task:to split the note sequence into 2 part:
+    1) Main note: the parameter "note" is bigger than 55
+    2) Assistant note: the parameter "note" is at most 55
+Input:Sequence
+Output: None
+Remark: the 2 parts are seperately exported to output0.mid and output1.mid
+'''
+
+
+def Note_Split(Sequence):
+    Track1, Track2 = Initialize_Track(), Initialize_Track()
+    Main, Assis = [[] for _ in Sequence], [[] for _ in Sequence]
+    for x in range(len(Sequence)):
+        Main_note, Assis_note = [i for i in Sequence[x][1] if i >= 60], [i for i in Sequence[x][1] if i < 55]
+        if(Main_note == []):
+            Main_note = [-1]
+        if(Assis_note == []):
+            Assis_note = [-1]
+        Main[x] = [Sequence[x][0], Main_note, Sequence[x][2]]
+        Assis[x] = [Sequence[x][0], Assis_note, Sequence[x][2]]
+    Music1 = Add_Notes(Track1, Main, 'sequence')
+    Music2 = Add_Notes(Track2, Assis, 'sequence')
+    # music=MidiFile()
+    # music.tracks.append(Music1)
+    # music.tracks.append(Music2)
+    # music.save('orchid.mid')
+    Music1.save('output0.mid')
+    Music2.save('output1.mid')

@@ -181,4 +181,5 @@ def Main_Process(path, Type=2):
     return L
 
 if __name__=='__main__' :
-    x=Main_Process("river.mid",Type=2)
+    x=Main_Process("jipusai.mid",Type=2)
+    print(x)

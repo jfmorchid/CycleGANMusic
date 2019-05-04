@@ -4,7 +4,7 @@ Function: handle the inferenced data from cycleGAN in .json format
 '''
 
 import json
-from midi_player import Export_Midi
+from midi_player import Export_Midi,Note_Split
 import numpy as np
 from music_theory import Main_Process
 import deal_with_midi
@@ -34,4 +34,5 @@ if __name__ == '__main__':
     f = open("sequence.json")
     data = json.load(f)
     Track = Decode_Json(data)
-    Export_Midi('Output.mid', Track)
+    #Export_Midi('Output.mid', Track)
+    Note_Split(Track)

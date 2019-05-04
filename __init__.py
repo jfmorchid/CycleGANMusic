@@ -7,7 +7,7 @@ Steps:Predicting(with trained models),Strengthen(with music theory)
 from keras.models import load_model
 import numpy as np
 from music_theory import Main_Process
-from midi_player import Export_Midi
+from midi_player import Export_Midi,Note_Split
 import deal_with_midi
 import sys
 
@@ -41,7 +41,8 @@ if __name__ == '__main__':
         raise RuntimeError('Invalid discrete sequence. Please check the .mid format, and choose the suitable function to export sequence.')
     try:
         print('Saving to Output.mid...')
-        Export_Midi('Output.mid', Entire_track)
+        #Export_Midi('Output.mid', Entire_track)
+        Note_Split(Entire_track)
     except:
         raise RuntimeError('Fail to save the midi file. Pleast make sure the Output.mid is not opened by other software.')
     print('Success!')

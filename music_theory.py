@@ -12,7 +12,7 @@ Remark: Optimization steps:
 import numpy as np
 from mido import MidiTrack,Message
 from midi_player import Initialize_Track
-unit={"V.K":54,"Hisaishi":86,"Debussy":44,"Pianoboy":152,"Beethoven":36,"Bach":68,"Mozart":100,"Schubert":38}#unit length of note
+unit={"V.K":81,"Hisaishi":129,"Debussy":44,"Pianoboy":152,"Beethoven":36,"Bach":68,"Mozart":100,"Schubert":38}#unit length of note
 speed={"V.K":0.76,"Hisaishi":1,"Debussy":1,"Pianoboy":1,"Beethoven":1,"Bach":1,"Mozart":1,"Schubert":1}
 ratio={"V.K":1.1,"Hisaishi":1,"Debussy":1,"Pianoboy":1,"Beethoven":1,"Bach":1,"Mozart":1,"Schubert":1}
 '''
@@ -236,3 +236,4 @@ def Main_Process(Musician,Original,New):
     Track=Add_Chord(Track,Musician,Start,Begin) #step4
     Left_track=Lefthand_Melody(Track,End, Musician)    #step5
     return Track,Left_track
+
