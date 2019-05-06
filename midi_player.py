@@ -55,8 +55,8 @@ def Add_Notes(Track, path, Type='midi', ratio=1):
                 Track.append(Message('note_off', channel=0, note=int(Command[1][Notes]), velocity=48, time=0))
     Music = MidiFile()
     Music.tracks.append(Track)
-    return Music
-    # return Track
+    #return Music
+    return Track
 
 
 '''
@@ -106,18 +106,21 @@ def Note_Split(Sequence):
     Track1, Track2 = Initialize_Track(), Initialize_Track()
     Main, Assis = [[] for _ in Sequence], [[] for _ in Sequence]
     for x in range(len(Sequence)):
-        Main_note, Assis_note = [i for i in Sequence[x][1] if i >= 60], [i for i in Sequence[x][1] if i < 55]
+        Main_note, Assis_note = [i for i in Sequence[x][1] if i >= 58], [i for i in Sequence[x][1] if i < 55]
         if(Main_note == []):
             Main_note = [-1]
         if(Assis_note == []):
             Assis_note = [-1]
         Main[x] = [Sequence[x][0], Main_note, Sequence[x][2]]
         Assis[x] = [Sequence[x][0], Assis_note, Sequence[x][2]]
+    Sum_main,Sum_ass=sum([Main[x][0]+Main[x][2] for x in range(len(Main)) if Main[x][1][0]>=20]),sum([Assis[x][0]+Assis[x][2] for x in range(len(Assis)) if Assis[x][1][0]>=20])
+    Main=[[Main[x][0],Main[x][1],Main[x][2]] for x in range(len(Main)) if Main[x][1][0]>=20]
+    Assis=[[int(Assis[x][0]*Sum_main/Sum_ass),Assis[x][1],int(Assis[x][2]*Sum_main/Sum_ass)] for x in range(len(Assis)) if Assis[x][1][0]>=20]
     Music1 = Add_Notes(Track1, Main, 'sequence')
     Music2 = Add_Notes(Track2, Assis, 'sequence')
-    # music=MidiFile()
-    # music.tracks.append(Music1)
-    # music.tracks.append(Music2)
-    # music.save('orchid.mid')
-    Music1.save('output0.mid')
-    Music2.save('output1.mid')
+    music=MidiFile()
+    music.tracks.append(Music1)
+    music.tracks.append(Music2)
+    music.save('orchid.mid')
+    #Music1.save('output0.mid')
+    #Music2.save('output1.mid')

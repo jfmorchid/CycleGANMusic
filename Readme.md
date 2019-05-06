@@ -1,6 +1,6 @@
 # CycleGANMusic
 
-## Last update: 5/4/2019,20:20
+## Last update: 5/6/2019,21:34
 
 To transfer the midi style with CycleGAN model, you need to prepare the midi file (for example, 'test.mid').
 
@@ -12,7 +12,7 @@ The parameter **style** is the target style you want to generate (like `Mozart`)
 
 The final .mid file will be exported in **Output.mid**.
 
-## What's new in Version 1.1.1?
+## What's new in Version 1.1.2?
 
 A new interface is designed to handle .json data from browser.
 
